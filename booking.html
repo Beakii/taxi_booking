@@ -1,0 +1,146 @@
+<!--
+Author: James Stewart
+Student ID: 1391333
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--FontAwesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Booking</title>
+</head>
+<body>
+    <div>
+        <button onclick="location.href='admin.html'" class="btn btn-outline-primary m-3">Admin Page</button>
+    </div>
+    <div class="container-fluid">
+            <ul id="errors"></ul>
+        <div class="card shadow-lg mt-3 col-md-8" style="float: none; margin: 0 auto;">
+            <div id="customer-form">
+                <h4>Contact Details</h4>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="userName">Name
+                                <span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="userName" placeholder="Name..." >
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="phone">Phone Number
+                            <span style="color:red">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="phone" placeholder="Phone Number..." >
+                    </div>
+                </div>
+
+                <hr>
+                <h4>Pickup Details</h4>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="streetName">Street Name
+                                <span style="color:red">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="streetName" >
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="inputSuburb">Suburb
+                                <span style="color:red">*</span>
+                        </label>
+                        <select id="inputSuburb" class="form-control" >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="aptNum">Apt. Num</label>
+                        <input type="number" class="form-control" id="aptNum" placeholder="If applicable">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="stNum">St. Num
+                                <span style="color:red">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="stNum" >
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="timePicker">Pickup Time
+                            <span style="color:red">*</span>
+                        </label>
+                        <input type="datetime-local" class="form-control" id="timePicker"/>
+                    </div>
+             
+                </div>
+
+                <hr>
+                <h4>Destination</h4>
+                <div class="form-group">
+                    <label for="destSuburb">Destination Suburb
+                            <span style="color:red">*</span>
+                    </label>
+                    <select id="destSuburb" class="form-control" >
+                    </select>
+                </div>
+
+                <button id="submit" type="submit" class="btn btn-primary btn-block mb-2">Submit</button>
+            </div>
+            <h2 id="return-message" class="mt-1"></h2>
+        </div>
+    </div>
+    
+<!--Bootstrap, JQuery, Popper.js CDN-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="booking.js"></script>
+
+<script>
+    //Create reference to dropdown list in DOM
+    let dropdown = document.getElementById('inputSuburb');
+    let anotherDropDown = document.getElementById('destSuburb');
+    dropdown.length = 0;
+    anotherDropDown.length = 0;
+
+    //Creating initial list option value
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose a Suburb...';
+
+    let anotherDefaultOption = document.createElement('option');
+    anotherDefaultOption.text = 'Choose a Suburb...';
+
+    //Setting initial option value equal to one just created
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+    
+    anotherDropDown.add(anotherDefaultOption);
+    anotherDropDown.selectedIndex = 0;
+
+    //Fetching the JSON file then iterating through to populate dropdown
+    fetch("./suburbs.json").then(function(resp){
+        return resp.json();
+    }).then(function(data){
+        for(var i = 0; i < data.length; i++){
+            var option = document.createElement('option');
+            option.text = data[i].name;
+            dropdown.add(option);
+
+            var option = document.createElement('option');
+            option.text = data[i].name;
+            anotherDropDown.add(option);
+        }
+    });
+</script>
+</body>
+</html>
